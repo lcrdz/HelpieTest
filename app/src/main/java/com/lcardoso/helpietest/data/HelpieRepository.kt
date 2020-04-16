@@ -7,9 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class HelpieRepository {
-
-    private val api = HelpieApi.service
+class HelpieRepository(private val api: HelpieApiService) {
 
     fun getUsers(): Observable<List<UserResponse>> {
         return api.getUsers()

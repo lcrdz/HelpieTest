@@ -6,24 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lcardoso.helpietest.R
-import com.lcardoso.helpietest.data.HelpieRepository
 import com.lcardoso.helpietest.data.model.StateResponse
 import com.lcardoso.helpietest.data.model.UserResponse
 import com.lcardoso.helpietest.ui.posts.PostsActivity
 import com.lcardoso.helpietest.util.nonNullObserve
 import kotlinx.android.synthetic.main.users_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UsersFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = UsersFragment()
-    }
-
-    private lateinit var viewModel: UsersViewModel
+    private val viewModel: UsersViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +28,6 @@ class UsersFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this, UsersViewModel.UsersViewModelFactory(HelpieRepository())
-        ).get(UsersViewModel::class.java)
-
         setupObservables()
         viewModel.getUsers()
     }
@@ -65,7 +55,7 @@ class UsersFragment : Fragment() {
 
     private fun redirectToPostsScreen(userId: Int) {
         val intent = PostsActivity.getStartIntent(
-            this.context!!.applicationContext,
+            this.requireContext().applicationContext,
             userId
         )
         this.startActivity(intent)
