@@ -10,24 +10,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lcardoso.helpietest.R
-import com.lcardoso.helpietest.data.HelpieRepository
 import com.lcardoso.helpietest.data.model.PhotoResponse
 import com.lcardoso.helpietest.data.model.StateResponse
 import com.lcardoso.helpietest.util.nonNullObserve
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.photos_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhotosFragment : Fragment() {
 
     companion object {
-        fun newInstance() = PhotosFragment()
         const val ALBUM_ID: Int = 1
     }
 
-    private lateinit var viewModel: PhotosViewModel
+    private val viewModel: PhotosViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,10 +36,6 @@ class PhotosFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this, PhotosViewModel.PhotosViewModelFactory(HelpieRepository())
-        ).get(PhotosViewModel::class.java)
-
         setupObservables()
         viewModel.getPhotos(ALBUM_ID)
     }
