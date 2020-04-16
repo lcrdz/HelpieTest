@@ -7,3 +7,4 @@
 <li>RxJava</li>
 <li>Retrofit</li>
 <li>Picasso</li>
+<li>Koin</li>
